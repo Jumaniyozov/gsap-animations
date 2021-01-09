@@ -23,7 +23,7 @@ function initPinSteps() {
         start: 'top center',
         endTrigger: '#stage4',
         end: 'center center',
-        pin: true,
+        pin: true
     })
 
     const getVh = () => {
@@ -41,7 +41,7 @@ function initPinSteps() {
         ScrollTrigger.create({
             trigger: stage,
             start: 'top center',
-            end: () => `+=${stage.clientHeight+getVh()/10}`,
+            end: () => `+=${stage.clientHeight + getVh() / 10}`,
             toggleClass: {
                 targets: navLinks[index],
                 className: 'is-active'
@@ -53,7 +53,7 @@ function initPinSteps() {
 }
 
 function initScrollTo() {
-    gsap.utils.toArray('.fixed-nav a').forEach(link =>  {
+    gsap.utils.toArray('.fixed-nav a').forEach(link => {
 
         const target = link.getAttribute('href');
 
@@ -64,9 +64,11 @@ function initScrollTo() {
     })
 }
 
+
 function init() {
 
     // start here
+
     initImageParallel();
     initPinSteps();
     initScrollTo();

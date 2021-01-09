@@ -1,7 +1,10 @@
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+let bodyScrollBar;
+
+
 function initImageParallax() {
-    
+
     // select all sections .with-parallax
     gsap.utils.toArray('.with-parallax').forEach(section => {
 
@@ -15,7 +18,7 @@ function initImageParallax() {
             scrollTrigger: {
                 trigger: section,
                 start: 'top bottom',
-                scrub: true
+                scrub: 1
             }
         });
 
@@ -24,13 +27,14 @@ function initImageParallax() {
 }
 
 function initPinSteps() {
-    
+
     ScrollTrigger.create({
         trigger: '.fixed-nav',
         start: 'top center',
         endTrigger: '#stage4',
         end: 'center center',
-        pin: true
+        pin: true,
+        pinReparent: true
     });
 
     const getVh = () => {
@@ -50,7 +54,7 @@ function initPinSteps() {
         ScrollTrigger.create({
             trigger: stage,
             start: 'top center',
-            end: () => `+=${stage.clientHeight+getVh()/10}`,
+            end: () => `+=${stage.clientHeight + getVh() / 10}`,
             toggleClass: {
                 targets: navLinks[index],
                 className: 'is-active'
@@ -63,7 +67,7 @@ function initPinSteps() {
 
 }
 
-function initScrollTo(){
+function initScrollTo() {
 
     // find all links and animate to the right position
     gsap.utils.toArray('.fixed-nav a').forEach(link => {
@@ -72,21 +76,44 @@ function initScrollTo(){
 
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            gsap.to(window, {duration: 1.5, scrollTo: target, ease: 'Power2.out'});
+            // gsap.to(window, {duration: 1.5, scrollTo: target, ease: 'Power2.out'});
+            bodyScrollBar.scrollIntoView(document.querySelector(target), {
+                damping: 0.07,
+                offsetTop: 100
+            })
         });
 
     });
 
 }
 
-function init(){
-    
+//
+function initSmoothScrollbar() {
+//
+    bodyScrollBar = Scrollbar.init(document.querySelector('#viewport'), {
+        damping: 0.07
+    });
+//
+    bodyScrollBar.track.xAxis.element.remove();
+//
+    ScrollTrigger.scrollerProxy(document.body, {
+        scrollTop(value) {
+            if (arguments.length) {
+                bodyScrollBar.scrollTop = value;
+            }
+            return bodyScrollBar.scrollTop;
+        }
+    })
+}
+
+function init() {
+    initSmoothScrollbar();
     initImageParallax();
     initPinSteps();
     initScrollTo();
 
 }
 
-window.addEventListener('load', function(){
+window.addEventListener('load', function () {
     init();
 });
