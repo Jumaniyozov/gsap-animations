@@ -10,7 +10,7 @@ function initImageParallel() {
             scrollTrigger: {
                 trigger: section,
                 start: 'top bottom',
-                scrub: 1,
+                scrub: true,
             }
         })
     })
@@ -24,7 +24,6 @@ function initPinSteps() {
         endTrigger: '#stage4',
         end: 'center center',
         pin: true,
-        pinReparent: true
     })
 
     const getVh = () => {
@@ -33,7 +32,6 @@ function initPinSteps() {
     }
 
     const updateBodyColor = (color) => {
-        // gsap.to('.fill-background', {backgroundColor: color, ease: 'none'})
         document.documentElement.style.setProperty('--bcg-fill-color', color);
     }
 
@@ -48,7 +46,6 @@ function initPinSteps() {
                 targets: navLinks[index],
                 className: 'is-active'
             },
-            markers: true,
             onEnter: () => updateBodyColor(stage.dataset.color),
             onEnterBack: () => updateBodyColor(stage.dataset.color)
         })
@@ -78,26 +75,3 @@ function init() {
 window.addEventListener('load', function () {
     init();
 });
-
-// let container = document.querySelector('#scroll-container');
-//
-// let height;
-//
-// function setHeight() {
-//     height = container.clientHeight;
-//     document.body.style.height = `${height}px`;
-// }
-// ScrollTrigger.addEventListener('refreshInit', setHeight);
-//
-// gsap.to(container, {
-//     y: () => -(height - document.documentElement.clientHeight),
-//     ease: 'none',
-//     scrollTrigger: {
-//         trigger: document.body,
-//         start: 'top top',
-//         end: 'bottom bottom',
-//         scrub: 1,
-//         invalidateOnRefresh: true,
-//     }
-// })
-
