@@ -15,11 +15,13 @@
 
 </head>
 
-<body>
+<body class="is-loading">
 
     <div class="loader">
         <div class="loader__mask">
-            <div class="inner"></div> <!-- this will scale up -->
+            <div class="inner">
+                <div class="progress"></div>
+            </div> <!-- this will scale up -->
         </div>
     </div>
     <div class="loader__content">
@@ -59,11 +61,11 @@
     </nav>
 
     <main id="main">
-            
+
         <header data-color="#ACB7AE">
             <h1>
-                <span>Consectetur</span> 
-                <span>Adipisicing</span> 
+                <span>Consectetur</span>
+                <span>Adipisicing</span>
                 <span>Elites</span>
             </h1>
             <p class="subtitle">VOLUPTAS AUT <br />& VERITASIS NOSTRUM</p>
@@ -102,9 +104,10 @@
     <!-- fill background between sections with margin - eg. portfolio  -->
     <aside class="fill-background" style="background-color: #ACB7AE"></aside>
 
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/smooth-scrollbar@latest/dist/smooth-scrollbar.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/GSDevTools3.min.js"></script>
     <script src="js/main.js" defer></script>
 
 </body>
