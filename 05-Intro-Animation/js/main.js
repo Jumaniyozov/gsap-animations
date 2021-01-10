@@ -12,6 +12,7 @@ function getSelectorAll(selector) {
 const loader = getSelector('.loader');
 const loaderInner = getSelector('.loader .inner');
 const progressBar = getSelector('.loader .progress');
+const loaderMask = getSelector('.loader__mask');
 
 gsap.set(loader, {autoAlpha: 1});
 
@@ -37,7 +38,7 @@ function updateProgress(value) {
 }
 
 imgLoad.on('done', function (instance) {
-    gsap.set(progressBar, {autoAlpha: 0, onComplete: initLoader})
+    gsap.set(progressBar, {autoAlpha: 0, onComplete: initPageTransitions})
 })
 
 function initLoader() {
@@ -87,6 +88,73 @@ function initLoader() {
 
     tlLoader.add(tlLoaderIn).add(tlLoaderOut)
 
+}
+
+function pageTransitionIn({container}) {
+
+    const tl = gsap.timeline({
+        defaults: {
+            duration: 1,
+            ease: 'power1.inOut'
+        }
+    });
+    tl
+        .set(loaderInner, {autoAlpha: 0})
+        .fromTo(loader, {yPercent: -100}, {yPercent: 0})
+        .fromTo(loaderMask, {yPercent: 80}, {yPercent: 0}, 0)
+        .to(container, {y: 150}, 0)
+
+    return tl;
+
+    // return gsap.to('.transition', {duration: 1, yPercent: -100, ease: '-power1.inOut'})
+}
+
+function pageTransitionOut({container}) {
+
+    const tl = gsap.timeline({
+        defaults: {
+            duration: 1,
+            ease: 'power1.inOut'
+        }
+    });
+    tl
+        .to(loader, {yPercent: 100})
+        .to(loaderMask, {yPercent: -80}, 0)
+        .from(container, {y: -150}, 0)
+
+    return tl;
+
+    // return gsap.to('.transition', {duration: 1, yPercent: 0, ease: 'power1.inOut'});
+}
+
+function initPageTransitions(param) {
+
+    barba.hooks.before(() => {
+        document.querySelector('html').classList.add('is-transitioning');
+    })
+
+    barba.hooks.after(() => {
+        document.querySelector('html').classList.remove('is-transitioning');
+    })
+
+    barba.hooks.enter(() => {
+        window.scrollTo(0, 0);
+    })
+
+    barba.init({
+        transitions: [{
+            once() {
+
+                initLoader();
+            },
+            async leave({current}) {
+                await pageTransitionIn(current)
+            },
+            enter({next}) {
+                pageTransitionOut(next)
+            }
+        }]
+    })
 }
 
 // function init() {
